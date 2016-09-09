@@ -1,4 +1,4 @@
-package net.savelichev.sockets.server;
+package net.savelichev.sockets.simpleSocket;
 
 
 import java.io.*;

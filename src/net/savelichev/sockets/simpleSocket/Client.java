@@ -1,15 +1,14 @@
-package net.savelichev.sockets.client;
+package net.savelichev.sockets.simpleSocket;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Client {
 
 
     /**
-     * Client app send message from arguments to the server and wait for answer.
+     * ClientUDP app send message from arguments to the server and wait for answer.
      *
      * @param args message to send
      */
@@ -19,8 +18,8 @@ public class Client {
 
 
         try {
-            InetAddress inet4Address = InetAddress.getByName(ip);
-            Socket socket = new Socket(inet4Address, port);
+            InetAddress inetAddress = InetAddress.getByName(ip);
+            Socket socket = new Socket(inetAddress, port);
 
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
@@ -29,13 +28,7 @@ public class Client {
             DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
 
-            String message = null;
-
-            if (args != null) {
-                message = args[0];
-            } else {
-                message = "no arguments";
-            }
+            String message = args[0];
 
 
             dataOutputStream.writeUTF(message);
