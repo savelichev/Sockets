@@ -8,6 +8,11 @@ import java.net.UnknownHostException;
 public class Client {
 
 
+    /**
+     * Client app send message from arguments to the server and wait for answer.
+     *
+     * @param args message to send
+     */
     public static void main(String[] args) {
         int port = 1234;
         String ip = "127.0.0.1";
@@ -23,7 +28,14 @@ public class Client {
             DataInputStream dataInputStream = new DataInputStream(inputStream);
             DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-            String message = "Hello";
+
+            String message = null;
+
+            if (args != null) {
+                message = args[0];
+            } else {
+                message = "no arguments";
+            }
 
 
             dataOutputStream.writeUTF(message);
@@ -33,9 +45,6 @@ public class Client {
             String backMessage = dataInputStream.readUTF();
             System.out.println("Got back message: " + backMessage);
 
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

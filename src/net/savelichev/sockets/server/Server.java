@@ -8,6 +8,10 @@ import java.net.Socket;
 public class Server {
 
 
+    /**
+     * Waiting for connection from clients. Take the message and sending echo back.
+     * @param args
+     */
     public static void main(String[] args) {
 
         int port = 1234;
@@ -39,9 +43,6 @@ public class Server {
                 dataOutputStream.flush();
 
                 System.out.println("echo sent.");
-
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
