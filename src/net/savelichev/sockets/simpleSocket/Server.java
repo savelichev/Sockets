@@ -5,47 +5,61 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server {
+/**
+ * Server app simple socket implementation.
+ */
+public class Server implements Runnable {
 
 
     /**
      * Waiting for connection from clients. Take the message and sending echo back.
-     * @param args
      */
-    public static void main(String[] args) {
+    private void startUp() {
 
         int port = 1234;
 
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Socket created...");
+            System.out.println("Server: ServerSocket created...");
 
-            Socket socket = serverSocket.accept();
+            while (true){
+                Socket socket = serverSocket.accept();
 
-            System.out.println("Got a connection!");
-
-
-            InputStream inputStream = socket.getInputStream();
-            OutputStream outputStream = socket.getOutputStream();
-
-            DataInputStream dataInputStream = new DataInputStream(inputStream);
-            DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-
-            String message = null;
+                System.out.println("Server: Got a client!");
 
 
-                message = dataInputStream.readUTF();
-                System.out.println("Got a message: " + message);
+                InputStream inputStream = socket.getInputStream();
+                OutputStream outputStream = socket.getOutputStream();
 
-                System.out.println("Sending echo...");
+                DataInputStream dataInputStream = new DataInputStream(inputStream);
+                DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-                dataOutputStream.writeUTF("echo... " + message);
-                dataOutputStream.flush();
+                String message = null;
 
-                System.out.println("echo sent.");
+                while (true) {
 
+                    message = dataInputStream.readUTF();
+                    if (message.equals("buy")) {
+                        socket.close();
+                        System.out.println("Server: disconnected.");
+                        break;
+                    }
+                    System.out.println("Server: Got a message: " + message);
+
+                    System.out.println("Server: Sending echo...");
+
+                    dataOutputStream.writeUTF("Server: echo... " + message);
+                    dataOutputStream.flush();
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    public void run() {
+        startUp();
     }
 }
